@@ -1,26 +1,14 @@
-VPS(翻墙)
+VPS
 
-yum -y install wget
+sudo wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh
 
-wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh
+sudo chmod +x shadowsocks.sh
 
-chmod +x shadowsocks.sh
-
-./shadowsocks.sh 2>&1 | tee shadowsocks.log
+sudo ./shadowsocks.sh 2>&1 | tee shadowsocks.log
 
 
+sudo wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/serverspeeder/master/serverspeeder-all.sh && bash serverspeeder-all.sh
 
+sudo vi /serverspeeder/etc/config
 
-锐速加速 安装方法
-
-1.复制下面代码到putty里面按回车
-
-wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/serverspeeder/master/serverspeeder-all.sh && bash serverspeeder-all.sh
-
-2.复制下面代码到putty里面也按回车
-
-vi /serverspeeder/etc/config
-
-3.重启加速服务完成优化
-
-service serverSpeeder restart
+sudo service serverSpeeder restart
