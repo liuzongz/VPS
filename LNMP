@@ -1,0 +1,140 @@
+lnmp 安装
+
+mysql  安装
+
+rpm -Uvh  http://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
+
+
+yum -y install mysql-community-server
+
+systemctl start mysqld
+
+grep 'temporary password' /var/log/mysqld.log
+
+mysql -uroot -p'iacFXpWt-6gJ'
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyPass1!';
+
+
+
+vim /etc/my.cnf
+character_set_server=utf8
+init_connect='SET NAMES utf8'
+
+
+
+php编译安装
+
+tar -xvf *****
+
+cd php-7.0.4
+
+yum install libxml2 libxml2-devel openssl openssl-devel bzip2 bzip2-devel libcurl libcurl-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel gmp gmp-devel libmcrypt libmcrypt-devel readline readline-devel libxslt libxslt-devel
+
+
+./configure \
+--prefix=/usr/local/php \
+--with-config-file-path=/etc \
+--enable-fpm \
+--with-fpm-user=nginx \
+--with-fpm-group=nginx \
+--enable-inline-optimization \
+--disable-debug \
+--disable-rpath \
+--enable-shared \
+--enable-soap \
+--with-libxml-dir \
+--with-xmlrpc \
+--with-openssl \
+--with-mcrypt \
+--with-mhash \
+--with-pcre-regex \
+--with-sqlite3 \
+--with-zlib \
+--enable-bcmath \
+--with-iconv \
+--with-bz2 \
+--enable-calendar \
+--with-curl \
+--with-cdb \
+--enable-dom \
+--enable-exif \
+--enable-fileinfo \
+--enable-filter \
+--with-pcre-dir \
+--enable-ftp \
+--with-gd \
+--with-openssl-dir \
+--with-jpeg-dir \
+--with-png-dir \
+--with-zlib-dir \
+--with-freetype-dir \
+--enable-gd-native-ttf \
+--enable-gd-jis-conv \
+--with-gettext \
+--with-gmp \
+--with-mhash \
+--enable-json \
+--enable-mbstring \
+--enable-mbregex \
+--enable-mbregex-backtrack \
+--with-libmbfl \
+--with-onig \
+--enable-pdo \
+--with-mysqli=mysqlnd \
+--with-pdo-mysql=mysqlnd \
+--with-zlib-dir \
+--with-pdo-sqlite \
+--with-readline \
+--enable-session \
+--enable-shmop \
+--enable-simplexml \
+--enable-sockets \
+--enable-sysvmsg \
+--enable-sysvsem \
+--enable-sysvshm \
+--enable-wddx \
+--with-libxml-dir \
+--with-xsl \
+--enable-zip \
+--enable-mysqlnd-compression-support \
+--with-pear \
+--enable-opcache
+
+yum install -y epel-release
+
+yum install -y libmcrypt-devel
+
+yum -y install gcc
+
+make test
+
+make && make install
+
+
+cp php.ini-production /etc/php.ini
+cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf
+cp /usr/local/php/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf
+cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
+chmod +x /etc/init.d/php-fpm
+
+
+
+安装nginx
+rpm -Uvh https://dl.Fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+yum -y install nginx
+
+systemctl status firewalld   
+
+vim /etc/firewalld/zones/public.xml
+
+systemctl reload firewalld
+
+vi /etc/nginx/nginx.conf
+location ~ .php$ {
+    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_index index.php;
+    fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+    include fastcgi_params;
+}
